@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Large biological data
+data/
+results/
+*.fasta
+*.fa
+*.fna
+*.fastq
+*.fastq.gz
+*.bam
+*.bai
+*.sam
+*.vcf.gz
+*.bcf
+
+# Temporary files
+tmp/
+logs/
