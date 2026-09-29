@@ -2,7 +2,10 @@
 .DS_Store
 
 # Large biological data
-data/
+data/**
+!data/.gitkeep
+!data/genome_assemblies/
+!data/genome_assemblies/.gitkeep
 results/
 *.fasta
 *.fa
