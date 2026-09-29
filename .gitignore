@@ -6,6 +6,10 @@ data/**
 !data/.gitkeep
 !data/genome_assemblies/
 !data/genome_assemblies/.gitkeep
+!data/pESI_assemblies/
+!data/pESI_assemblies/.gitkeep
+!data/alignments/
+!data/alignments/.gitkeep
 results/
 *.fasta
 *.fa
