@@ -4,10 +4,8 @@ This repository controls bioinformatic analyses for an environmental Salmonella 
 
 ## Local vs remote
 
-The local Mac repository contains code, workflows, configuration, documentation,
-and small metadata tables. Large biological datasets and computational results
-live on the remote server; the local data directories may contain only `.gitkeep`
-placeholders.
+The local Mac repository contains code, workflows, documentation, and small
+metadata tables. Biological datasets and computational results live on the server.
 
 Use the configured SSH alias to access the server:
 
@@ -16,18 +14,17 @@ ssh salmonella
 cd ~/master/EnvironmentalSalmonella2026
 ```
 
-The remote project is `/home/strachan/master/EnvironmentalSalmonella2026`.
-The previously documented `~/EnvironmentalSalmonella2026` path does not exist.
+Use `~/miniconda3/bin/git` for Git commands on the server.
 
-For a single remote inspection command:
+## Conda environment
+
+The project environment is `environmental-salmonella-2026`. Its dependencies
+are recorded in `environment.yml`. Activate it in each server session:
 
 ```sh
-ssh salmonella 'cd ~/master/EnvironmentalSalmonella2026 && ls -la data'
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate environmental-salmonella-2026
 ```
-
-Do not assume that local code changes are already present on the server. Remote
-non-interactive shells may have a different `PATH`; check `command -v python3`
-or `command -v git` when needed.
 
 ## Directory structure
 
@@ -44,10 +41,8 @@ data/                         Biological inputs, stored on the server
   alignments/                 Genome and plasmid alignments (.aln)
 ```
 
-Use `results/` for generated analysis outputs, `logs/` for logs, and `tmp/` for
-temporary files, creating them when needed. These directories and biological
-data files are ignored by Git. Keep small metadata intended for version control
-in `metadata/`, outside the ignored `data/` tree.
+Keep small metadata intended for version control in `metadata/`. Biological
+data under `data/` is ignored by Git.
 
 ## Scripts and metadata
 
@@ -55,23 +50,13 @@ Prefer simple, readable Python 3 scripts in `bin/`. Use the standard library
 when practical, clear variable names, and minimal dependencies. Document input
 and output paths and how to run each script.
 
-Inspect the actual filenames before mapping samples across datasets. Preserve
-genome IDs as text and match complete IDs, rather than partial names. For the
-current inputs, `10133415.fna` matches `10133415_pESI.fasta` by removing the exact
-`_pESI` suffix from the plasmid filename stem.
+Inspect filenames before mapping samples across datasets. Preserve genome IDs
+as text and match complete IDs: `<genome_id>.fna` pairs with
+`<genome_id>_pESI.fasta`.
 
 `metadata/genome_plasmids.tsv` records whether a matching pESI assembly file
 exists. A `no` does not establish the absence of pESI or other plasmids. See
 `metadata/README.md` for the schema and provenance.
-
-To create a new metadata snapshot on the server, from the project directory:
-
-```sh
-python3 bin/create_plasmid_metadata.py --output metadata/genome_plasmids_updated.tsv
-```
-
-The script reads filenames only and refuses to overwrite an existing output.
-Choose a new output filename if the example above already exists.
 
 ## Safety
 
